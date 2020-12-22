@@ -17,7 +17,7 @@
     justify-content:center;
 }
 .listnotes ul li {
-    box-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.1);
     padding: 1rem 1rem ;
     border-radius: 5px;
     width: 85%;

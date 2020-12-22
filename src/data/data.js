@@ -49,7 +49,7 @@ export const data =
         {
             "id":4,
             "title":"Nợ sếp",
-            "content":"22/9/2020: 10tr \n 1/10/2020: Vay thêm sếp 20 triệu  \n 15/10/2020: Vay sếp 1 triệu nữa ",
+            "content":"22/7/2020: 2tr \n 1/10/2020: Vay thêm sếp 20 tr  \n 24/12/2020: Vay sếp 1 triệu nữa ",
             "date":"12/12/2020",
             "cateId":2
         },
