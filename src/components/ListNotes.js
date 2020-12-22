@@ -4,16 +4,19 @@ import "./ListNotes.css"
 
 ListNotes.propTypes = {
     listNotes: PropTypes.array,
+    category: PropTypes.array,
     onDeleteClick: PropTypes.func,
     onNoteClick: PropTypes.func,
+
 };
 ListNotes.defaultProps = {
     listNotes: [],
+    category: [],
     onDeleteClick: null,
     onNoteClick: null
 }
  function ListNotes(props) {
-    const { listNotes, onDeleClick, onNoteClick } = props 
+    const { listNotes, onDeleClick, onNoteClick, category } = props 
 
     function handleDelete(note) {
         if (onDeleClick) {
@@ -26,10 +29,20 @@ ListNotes.defaultProps = {
         }
     }
 
+    function displayCategory() {
+        category.map(item => (
+            <option value={item.id}>{item.title}</option>
+        ))
+    }
+
     return (
         <div className="listnotes">
             <div lassName="title">
-                <h1> All Notes</h1>
+                <select name="categoty">
+                    <option value={0}>All Note</option>
+                    {displayCategory}
+
+                </select>
                 <button>Add</button>
              </div>
             <ul >

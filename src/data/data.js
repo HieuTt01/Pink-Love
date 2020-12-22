@@ -1,6 +1,6 @@
 export const data =
 {
-    "Category-note": [
+    "category": [
         {
             "id" :1,
             "title":"Lịch làm việc"
