@@ -3,18 +3,15 @@ import ListNotes from './components/ListNotes';
 import Search from './components/Search';
 import AddNote from './components/AddNote';
 import './App.css';
-import { Layout } from 'antd';
-import "antd/dist/antd.css";
 import NoteContent from './components/NoteContent';
+import {data} from './data/data'
 
 function App() {
 
-  const [listNotes, setListNotes] = useState([
-    {id: 1, title:'I love reading book!', content:'Book ...'},
-    {id: 2, title:'I love reading book 111!', content:'Book ...'},
-    {id: 3, title:'I love reading book 123!', content:'Book ...'}
-  ]);
+  const [listNotes, setListNotes] = useState(data.listNotes);
   const [note, setNote] = useState( listNotes[0]);
+
+  
 
   function onDeleClick (note) {
     console.log(note);
@@ -25,13 +22,20 @@ function App() {
     setListNotes(newListNotes);
   }
 
-  function clickNote (note) {
+
+
+  function onNoteClick (note) {
     if (note) {
       setNote(note)
     }
   }
-  
-  const { Header, Footer, Sider, Content } = Layout;
+
+  // function onEditClick (newNotes, noteNew) {
+  //   setNotes(newNotes);
+  //   if(noteNew.id === noteDetail.id){
+  //     setNoteDetail(noteNew);
+  //   }
+  // }
   return (
   <div className="App">
     <div className="App-header">
@@ -41,7 +45,7 @@ function App() {
       <div class="sidebar">
         <Search />
         {/* <AddNote /> */}
-        <ListNotes listNotes={listNotes} onDeleClick={onDeleClick}/>
+        <ListNotes listNotes={listNotes} onDeleClick={onDeleClick} onNoteClick={onNoteClick}/>
       </div>
       <div class="content">
         <NoteContent note={note} />

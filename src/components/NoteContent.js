@@ -12,9 +12,11 @@ NoteContent.defaultProps = {
 function NoteContent(props) {
     const { note } = props
     return (
-        <div>
-            {note.content}
-        </div>
+            <div>
+                <h2>{note.title} </h2>
+                <p>Category: {note.cateId} - Date: {note.date}</p>
+                <span>{note.content}</span>
+            </div>
     );
 }
 
