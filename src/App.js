@@ -7,12 +7,28 @@ import NoteContent from './components/NoteContent';
 import { data } from './data/data'
 
 function App() {
-
   const [listNotes, setListNotes] = useState(data.listNotes);
   const [note, setNote] = useState(listNotes[0]);
+  // const [selectedCate, setSelectedCate] = useState('');
   const [category, setCategory] = useState(data.category)
 
-
+  function displayListNotes(cateId) {
+    // console.log(cateId)
+    var newlistNotes = [];
+    if (cateId != 0) {
+        data.listNotes.map((value) => {
+          // console.log(value.cateId)
+          // console.log(cateId)
+            if (value.cateId == cateId) {
+              newlistNotes.push(value);
+            }               
+        });
+    }
+    else {
+        newlistNotes = data.listNotes;
+    }
+    setListNotes(newlistNotes);
+} 
 
   function onDeleClick(note) {
     console.log(note);
@@ -50,7 +66,10 @@ function App() {
             listNotes={listNotes}
             onDeleClick={onDeleClick}
             onNoteClick={onNoteClick}
+            // selectedCate={selectedCate}
             category={category}
+            displayListNotes={displayListNotes}
+            // setSelectedCate={setSelectedCate}
           />
         </div>
         <div className="content">

@@ -7,16 +7,18 @@ ListNotes.propTypes = {
     category: PropTypes.array,
     onDeleteClick: PropTypes.func,
     onNoteClick: PropTypes.func,
+    displayListNotes: PropTypes.func,
 
 };
 ListNotes.defaultProps = {
     listNotes: [],
     category: [],
     onDeleteClick: null,
-    onNoteClick: null
+    onNoteClick: null,
+    displayListNotes: null,
 }
  function ListNotes(props) {
-    const { listNotes, onDeleClick, onNoteClick, category } = props 
+    const { listNotes, onDeleClick, onNoteClick, category, displayListNotes } = props 
 
     function handleDelete(note) {
         if (onDeleClick) {
@@ -28,20 +30,22 @@ ListNotes.defaultProps = {
           onNoteClick(note)
         }
     }
+    
 
-    function displayCategory() {
-        // console.log(category)
-        category.map(item => (
-            <option key={item.id} value={item.id}>{item.title}</option>
-        ))
-    }
+    // function displayCategory() {
+    //     // console.log(category)
+    //     category.map(item => (
+    //         <option key={item.id} value={item.id}>{item.title}</option>
+    //     ))
+    // }
 
     return (
         <div className="listnotes">
             <div className="title">
-                <select name="category">
+                <select name="category"  onChange={(event)=> displayListNotes(event.target.value)} >
                     <option value={0}>All Note</option>
-                    {displayCategory()}
+                    {category.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}
+                    {/* {displayCategory()} */}
 
                 </select>
                 <button>Add</button>
