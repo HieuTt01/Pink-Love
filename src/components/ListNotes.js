@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import "./ListNotes.css"
 
 ListNotes.propTypes = {
     listNotes: PropTypes.array,
@@ -20,7 +21,11 @@ function ListNotes(props) {
 
 
     return (
-        <div className="list-notes">
+        <div className="listnotes">
+            <div lassName="title">
+                <h1> All Notes</h1>
+                <button>Add</button>
+             </div>
             <ul >
             {
                 listNotes.map(note => (

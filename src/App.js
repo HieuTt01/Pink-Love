@@ -33,22 +33,24 @@ function App() {
   
   const { Header, Footer, Sider, Content } = Layout;
   return (
-  <>
-    <Layout>
-      <Header>Notebook App</Header>
-      <Layout >
-        <Sider>
-          <Search />
-          <AddNote />
-          <ListNotes listNotes={listNotes} onDeleClick={onDeleClick}/>
-        </Sider>
-        <Content>
-          <NoteContent note={note} />
-        </Content>
-      </Layout>
-      <Footer>Footer</Footer>
-    </Layout>
-  </>
+  <div className="App">
+    <div className="App-header">
+      <h3 className="header__title">Notebook App</h3>
+    </div>
+    <div className="App-content">
+      <div class="sidebar">
+        <Search />
+        {/* <AddNote /> */}
+        <ListNotes listNotes={listNotes} onDeleClick={onDeleClick}/>
+      </div>
+      <div class="content">
+        <NoteContent note={note} />
+      </div>
+    </div>
+    <div class="App-footer">
+      <h4 className="footer-item"> HieuTt01 © 2 0 2 0</h4>
+    </div>
+  </div>
     
   );
 }

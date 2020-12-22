@@ -1,0 +1,22 @@
+.search {
+    width: 100%; 
+    height: 30px;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+}
+.search__input {
+    width: 70%;
+    margin-right: 5px;
+    border-radius: 5px;
+    
+}
+.search__button {
+    background-color: #afbbca;  
+    cursor: pointer; 
+    border-radius: 5px;
+}
+.search__button:hover {
+    background-color: rgb(119, 119, 182);
+}
