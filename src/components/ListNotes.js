@@ -30,17 +30,18 @@ ListNotes.defaultProps = {
     }
 
     function displayCategory() {
+        // console.log(category)
         category.map(item => (
-            <option value={item.id}>{item.title}</option>
+            <option key={item.id} value={item.id}>{item.title}</option>
         ))
     }
 
     return (
         <div className="listnotes">
-            <div lassName="title">
-                <select name="categoty">
+            <div className="title">
+                <select name="category">
                     <option value={0}>All Note</option>
-                    {displayCategory}
+                    {displayCategory()}
 
                 </select>
                 <button>Add</button>

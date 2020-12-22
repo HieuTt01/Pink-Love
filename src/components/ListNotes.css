@@ -5,10 +5,7 @@
 }
 
 .title {
-   display: flex;
-}
-.title h1 {
-  
+   display: block;
 }
 
 .listnotes ul {

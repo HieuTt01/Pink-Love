@@ -9,8 +9,8 @@ import './Search.css';
 function Search(props) {
     return (
         <div className="search">
-             <input class="search__input"  id="lname" name="search" placeholder="Input to search..."></input>
-             <button class="search__button">Search</button>
+             <input className="search__input"  id="lname" name="search" placeholder="Input to search..."></input>
+             <button className="search__button">Search</button>
         </div>
     );
 }

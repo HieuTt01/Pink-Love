@@ -2,19 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 NoteContent.propTypes = {
-  note: PropTypes.object 
+  note: PropTypes.object,
+  category: PropTypes.array,
 };
 
 NoteContent.defaultProps = {
     note: {},
+    category: [],
 }
 
+
+
 function NoteContent(props) {
-    const { note } = props
+    const { note, category } = props
     return (
             <div>
                 <h2>{note.title} </h2>
-                <p>Category: {note.cateId} - Date: {note.date}</p>
+                <p>Category: {category.find(item=> item.id === note.cateId).title} - Date: {note.date}</p>
                 <span>{note.content}</span>
             </div>
     );

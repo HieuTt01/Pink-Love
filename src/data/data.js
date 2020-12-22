@@ -21,7 +21,7 @@ export const data =
         {
             "id":1,
             "title":"Thứ 3",
-            "content":"8h30-11h : Hoàn thành kịch bản video lồng tiếng\n 18h30-21h: Thu âm bản lồng tiếng và chỉnh sửa",
+            "content":"8h30-11h : Hoàn thành kịch bản video lồng tiếng \n 18h30-21h: Thu âm bản lồng tiếng và chỉnh sửa",
             "date":"22-12-2020",
             "cateId":1
         },

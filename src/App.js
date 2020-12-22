@@ -43,7 +43,7 @@ function App() {
         <h3 className="header__title">Notebook App</h3>
       </div>
       <div className="App-content">
-        <div class="sidebar">
+        <div className="sidebar">
           <Search />
           {/* <AddNote /> */}
           <ListNotes
@@ -53,14 +53,14 @@ function App() {
             category={category}
           />
         </div>
-        <div class="content">
+        <div className="content">
           <NoteContent
             note={note}
             category={category}
           />
         </div>
       </div>
-      <div class="App-footer">
+      <div className="App-footer">
         <h4 className="footer-item"> HieuTt01 © 2 0 2 0</h4>
       </div>
     </div>
