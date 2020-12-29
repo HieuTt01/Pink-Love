@@ -38,14 +38,14 @@ function AddCategory(props) {
             <Modal title="Add A Category" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     {...layout}
-                    name="basic"
+                    name="category"
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     >
                     <Form.Item
-                        label="Category's title"
-                        name="name"
+                        label="Title"
+                        name="title"
                         rules={[{ required: true, message: 'Please input title!' }]}
                     >
                         <Input />

@@ -36,8 +36,8 @@ Category.defaultProps = {
                 displayNoteByCate(cate.id)
             }
             else {
-                onNoteClick('All notes')
                 setIsActiveted(0)
+                onNoteClick('All notes')
                 displayNoteByCate(0)
             }
          
