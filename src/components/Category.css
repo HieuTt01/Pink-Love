@@ -1,0 +1,53 @@
+
+.title-sidebar {
+    display: flex;
+    margin-top: 10px;
+}
+
+.category ul {
+    list-style-type: none;
+    margin:  0;
+    padding: 50px 0;
+    /* text-align: center; */
+    align-items: center;
+    justify-content:center;
+}
+.category ul li {
+    box-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.1);
+    padding: 0.6rem 1rem ;
+    border-radius: 2px;
+    width: 85%;
+    margin: 10px auto;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color:white ;
+    background-color: pink;
+}
+
+.category ul li:hover {
+    transform: translateY(-4px);
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    background-color:yellow;
+    color: #000;
+    transform: scale(1.1);
+  }
+
+  
+
+.item--active {
+    /* border: red solid 1px; */
+    color:black !important;
+    background-color: yellow !important;
+}
+
+.title-button {
+    margin: 5px 10px;
+}
+
+.title-cate {
+  color:rgb(250, 34, 34);
+  font-size: 2rem;
+  font-weight: bolder;
+  margin: 0 0 0 36px;
+}

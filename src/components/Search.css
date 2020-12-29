@@ -1,5 +1,5 @@
 .search {
-    width: 100%; 
+    width: 300px; 
     height: 30px;
     margin: 20px 0;
     display: flex;
@@ -7,16 +7,18 @@
     justify-content:center;
 }
 .search__input {
-    width: 70%;
+    width: 100%;
     margin-right: 5px;
     border-radius: 5px;
-    
+    border: none;
+    outline: green;
 }
-.search__button {
-    background-color: #afbbca;  
-    cursor: pointer; 
-    border-radius: 5px;
+
+.search__input:focus { 
+    outline: pink;
 }
+
+
 .search__button:hover {
     background-color: rgb(119, 119, 182);
 }

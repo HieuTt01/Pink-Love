@@ -1,19 +1,19 @@
 import React from 'react';
 import { Form, Modal, Button, Input } from 'antd';
-import { FormOutlined } from '@ant-design/icons';
-import './AddForm.css'
+
+
 
 const layout = {
-    labelCol: { span: 6 },
+    labelCol: { span: 6},
     wrapperCol: { span: 18 },
   };
+//   const tailLayout = {
+//     wrapperCol: { offset: 8, span: 16 },
+//   };
 
-function AddNote(props) {
+function AddCategory(props) {
 
-    const {openModal, closeModal, isModalVisible } = props
-    const showModal = () => {
-        openModal();
-    };
+    const { closeModal, isModalVisible } = props
 
     const handleOk = () => {
         closeModal();
@@ -35,9 +35,7 @@ function AddNote(props) {
 
     return (
         <>
-            <Button className="title-button" icon={<FormOutlined />} onClick={showModal}>
-            </Button>
-            <Modal title="Add A Note" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Add A Category" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     {...layout}
                     name="basic"
@@ -46,24 +44,29 @@ function AddNote(props) {
                     onFinishFailed={onFinishFailed}
                     >
                     <Form.Item
-                        label="Category name"
+                        label="Category's title"
                         name="name"
-                        rules={[{ required: true, message: 'Please input name!' }]}
+                        rules={[{ required: true, message: 'Please input title!' }]}
                     >
                         <Input />
                     </Form.Item>
 
-                    <Form.Item
-                        label="Content"
-                        name="content"
-                        rules={[{ required: true, message: 'Please input content!' }]}
+                    {/* <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your password!' }]}
                     >
-                        <Input/>
+                        <Input.Password />
                     </Form.Item>
+                    <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit">
+                        Add
+                        </Button>
+                    </Form.Item> */}
                 </Form>
             </Modal>
         </>
     );
 }
 
-export default AddNote;
+export default AddCategory;

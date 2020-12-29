@@ -1,37 +1,89 @@
 import React, { useState, useEffect } from 'react';
-import ListNotes from './components/ListNotes';
+import Category from './components/Category';
 import Search from './components/Search';
-import AddNote from './components/AddNote';
+import AddCategory from './components/AddCategory';
 import './App.css';
-import NoteContent from './components/NoteContent';
-import { data } from './data/data'
+import NoteContent from './components/ListNotes';
+import { data } from './data/data';
+import Fuse from 'fuse.js';
+import 'antd/dist/antd.css';
+import { Col, Row } from "antd";
+import AddNote from './components/AddNote'
+
+
 
 function App() {
-  const [listNotes, setListNotes] = useState(data.listNotes);
-  const [note, setNote] = useState(listNotes[0]);
-  // const [selectedCate, setSelectedCate] = useState('');
-  const [category, setCategory] = useState(data.category)
 
-  function displayListNotes(cateId) {
-    // console.log(cateId)
-    var newlistNotes = [];
-    if (cateId != 0) {
-        data.listNotes.map((value) => {
-          // console.log(value.cateId)
-          // console.log(cateId)
-            if (value.cateId == cateId) {
-              newlistNotes.push(value);
-            }               
-        });
+  const [listNotes, setListNotes] = useState([]);
+  const [cateSelected, setCateSelected] = useState();
+  const category = data.category;
+  const [isOpenAddCate, setIsOpenAddCate] = useState(false);
+  const [isOpenAddNote, setIsOpenAddNote] = useState(false);
+
+  const options = {
+    // isCaseSensitive: false,
+    includeScore: true,
+    // shouldSort: true,
+    // includeMatches: false,
+    // findAllMatches: false,
+    // minMatchCharLength: 1,
+    // location: 0,
+    threshold: 0.4,
+    // distance: 100,
+    // useExtendedSearch: false,
+    // ignoreLocation: false,
+    // ignoreFieldNorm: false,
+    keys: [
+      'title',
+    ]
+  };
+
+
+  const fuse = new Fuse(data.listNotes, options);
+
+
+
+  useEffect(() => {
+    async function initialValue() {
+      const results = await fuse.search(" ");
+      setListNotes(results)
+      // setNote(listNotes[0]?.item)
+    }
+    initialValue();
+
+  }, [])
+
+
+
+  function changeKeySearch(key) {
+
+    if (key.length > 0) {
+      const results = fuse.search(key);
+      setListNotes(results)
     }
     else {
-        newlistNotes = data.listNotes;
+      const results = fuse.search(" ");
+      setListNotes(results)
+    }
+  }
+
+  function displayNoteByCate(cateId) {
+    const dataNote = fuse.search(" ");
+    var newlistNotes = [];
+    if (cateId !== 0) {
+      dataNote.map((value) => {
+        if (value.item.cateId === cateId) {
+          newlistNotes.push(value);
+        }
+      });
+    }
+    else {
+      newlistNotes = fuse.search(" ");
     }
     setListNotes(newlistNotes);
-} 
+  }
 
   function onDeleClick(note) {
-    console.log(note);
     const index = listNotes.findIndex(x => x.id === note.id);
     if (index < 0) return;
     const newListNotes = [...listNotes];
@@ -41,10 +93,27 @@ function App() {
 
 
 
-  function onNoteClick(note) {
-    if (note) {
-      setNote(note)
+  function onNoteClick(cate) {
+    if (cate) {
+      setCateSelected(cate)
     }
+  }
+
+
+  function openAddCate() {
+    setIsOpenAddCate(true)
+  }
+
+  function closeAddCate() {
+    setIsOpenAddCate(false)
+  }
+
+  function openAddNote() {
+    setIsOpenAddNote(true)
+  }
+
+  function closeAddNote() {
+    setIsOpenAddNote(false)
   }
 
   // function onEditClick (newNotes, noteNew) {
@@ -56,25 +125,34 @@ function App() {
   return (
     <div className="App">
       <div className="App-header">
-        <h3 className="header__title">Notebook App</h3>
+        <h3 className="header__title">Pink Love</h3>
       </div>
       <div className="App-content">
         <div className="sidebar">
-          <Search />
-          {/* <AddNote /> */}
-          <ListNotes
-            listNotes={listNotes}
+          <AddCategory isModalVisible={isOpenAddCate} closeModal={closeAddCate} />
+          <Category
             onDeleClick={onDeleClick}
             onNoteClick={onNoteClick}
-            // selectedCate={selectedCate}
             category={category}
-            displayListNotes={displayListNotes}
-            // setSelectedCate={setSelectedCate}
+            displayNoteByCate={displayNoteByCate}
+            openModal={openAddCate} 
           />
         </div>
-        <div className="content">
+        <div >
+          <Row >
+            <div class="title-content"> 
+              <h2 className="title-menu">{cateSelected?cateSelected:'All Notes'}</h2> 
+              <AddNote isModalVisible={isOpenAddNote} closeModal={closeAddNote} openModal={openAddNote} /> 
+          </div>
+          </Row>
+          <Row >
+              <Search
+                changeKeySearch={changeKeySearch}
+              />
+          </Row>
           <NoteContent
-            note={note}
+            listNotes={listNotes}
+            // note={note}
             category={category}
           />
         </div>
