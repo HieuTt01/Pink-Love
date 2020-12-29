@@ -30,22 +30,26 @@ Category.defaultProps = {
       }
     function handleClickNote(cate) {
         if (onNoteClick) {
-          onNoteClick(cate.title)
+            if (cate.id !== isActiveted) {
+                onNoteClick(cate.title)
+                setIsActiveted(cate.id);
+                displayNoteByCate(cate.id)
+            }
+            else {
+                onNoteClick('All notes')
+                setIsActiveted(0)
+                displayNoteByCate(0)
+            }
+         
         }
-        setIsActiveted(cate.id);
-        displayNoteByCate(cate.id)
+        
+        
     }
     
     const showModal = () => {
         openModal();
     };
     
-    // function displayCategory() {
-    //     // console.log(category)
-    //     category.map(item => (
-    //         <option key={item.id} value={item.id}>{item.title}</option>
-    //     ))
-    // }
     return (
         <div className="category">
             <div className="title-sidebar">
@@ -53,8 +57,9 @@ Category.defaultProps = {
                 <Button className="title-button"  icon={<FileAddOutlined />} onClick={showModal}>
                 </Button>
             </div>
-            <ul >
+            <ul className="category-items">
             {
+
                 category.map(cate => (
                     <li className={ (isActiveted === cate.id) &&'item--active'} key={cate.id} onClick={()=> handleClickNote(cate)}>
                         {cate.title}

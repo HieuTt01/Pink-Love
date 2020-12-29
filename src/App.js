@@ -15,7 +15,7 @@ import AddNote from './components/AddNote'
 function App() {
 
   const [listNotes, setListNotes] = useState([]);
-  const [cateSelected, setCateSelected] = useState();
+  const [cateSelected, setCateSelected] = useState("All notes");
   const category = data.category;
   const [isOpenAddCate, setIsOpenAddCate] = useState(false);
   const [isOpenAddNote, setIsOpenAddNote] = useState(false);
@@ -93,9 +93,10 @@ function App() {
 
 
 
-  function onNoteClick(cate) {
-    if (cate) {
-      setCateSelected(cate)
+  function onNoteClick(cateTitle) {
+    console.log(cateTitle)
+    if (cateTitle) {
+      setCateSelected(cateTitle)
     }
   }
 
@@ -141,7 +142,7 @@ function App() {
         <div >
           <Row >
             <div class="title-content"> 
-              <h2 className="title-menu">{cateSelected?cateSelected:'All Notes'}</h2> 
+              <h2 className="title-menu">{ cateSelected ?  cateSelected : 'All notes'}</h2> 
               <AddNote isModalVisible={isOpenAddNote} closeModal={closeAddNote} openModal={openAddNote} /> 
           </div>
           </Row>
