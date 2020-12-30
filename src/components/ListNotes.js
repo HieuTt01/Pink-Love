@@ -6,14 +6,14 @@ import './ListNotes.css'
 
 ListNotes.propTypes = {
     // note: PropTypes.object,
-    category: PropTypes.array,
+    // category: PropTypes.array,
     listNotes: PropTypes.array,
     deleteNote: PropTypes.func,
 };
 
 ListNotes.defaultProps = {
     // note: {},
-    category: [],
+    // category: [],
     listNotes: [],
     deleteNote: null,
 }
@@ -21,7 +21,7 @@ ListNotes.defaultProps = {
 
 
 function ListNotes(props) {
-    const { category, listNotes, deleteNote } = props
+    const {  listNotes, deleteNote } = props
     
     return (
         <>
@@ -29,7 +29,7 @@ function ListNotes(props) {
                 {listNotes.map((note) => {
                     return (
                         <Col xl={6} md={8} sm={12} xs={24} className="product-col">
-                            <NoteItem note={note.item} deleteNote={deleteNote} />
+                            <NoteItem note={note} deleteNote={deleteNote} />
                         </Col>
 
                     )

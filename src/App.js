@@ -7,7 +7,7 @@ import ListNotes from './components/ListNotes';
 import { data } from './data/data';
 import Fuse from 'fuse.js';
 import 'antd/dist/antd.css';
-import { Col, Row } from "antd";
+import { Row } from "antd";
 import AddNote from './components/AddNote'
 
 
@@ -19,6 +19,7 @@ function App() {
   const [category,setCategory] = useState([])
   const [isOpenAddCate, setIsOpenAddCate] = useState(false);
   const [isOpenAddNote, setIsOpenAddNote] = useState(false);
+  const [intinialData, setIntinialData] = useState();
 
   const options = {
     // isCaseSensitive: false,
@@ -39,46 +40,69 @@ function App() {
   };
 
 
-  const fuse = new Fuse(data.listNotes, options);
-
-
+  const fuse = new Fuse(intinialData, options);
 
   useEffect(() => {
     async function initialValue() {
-      const results = await fuse.search(" ");
-      setListNotes(results);
-      setCategory(data.category);
+      const requestUrl = "http://localhost:3000/listNotes"
+      const response = await fetch(requestUrl)
+      const data = await response.json()
+      const category = getCategory(data)
+      setIntinialData(data);
+      setListNotes(data);
+      setCategory(category);
     }
     initialValue();
 
   }, [])
+
+  function getCategory(data) {
+    if (data) {
+      const listCate = data.map((note) => {
+        return note.category;
+      });
+      const listTextCate = listCate.map((cate) => {
+        return JSON.stringify(cate);
+      });
+      const uniCate = [...new Set(listTextCate)];
+      const category = uniCate.map((cate) => {
+        return JSON.parse(cate);
+      });
+      return category;
+    }
+  }
 
 
 
   function changeKeySearch(key) {
 
     if (key.length > 0) {
-      const results = fuse.search(key);
+      const searchResults = fuse.search(key);
+      const results = searchResults.map(note => note.item);
       setListNotes(results)
     }
     else {
-      const results = fuse.search(" ");
+      const searchResults = fuse.search(" ");
+      const results = searchResults.map(note => note.item);
       setListNotes(results)
     }
   }
 
   function displayNoteByCate(cateId) {
-    const dataNote = fuse.search(" ");
     var newlistNotes = [];
     if (cateId !== 0) {
-      dataNote.map((value) => {
-        if (value.item.cateId === cateId) {
+      const searchResults = fuse.search(" ");
+      const results = searchResults.map(note => note.item);
+      results.map((value) => {
+        if (value.category.id === cateId) {
           newlistNotes.push(value);
         }
       });
+      console.log(newlistNotes)
     }
     else {
-      newlistNotes = fuse.search(" ");
+      const results = fuse.search(" ");
+      newlistNotes = results.map(note => note.item);
     }
     setListNotes(newlistNotes);
   }
@@ -123,12 +147,11 @@ function App() {
   //     setNoteDetail(noteNew);
   //   }
   // }
+  console.log(listNotes)
 
   function deleteNote(noteId) {
-    // console.log(newNote)
-    // console.log(listNotes)
     let newListNotes = [...listNotes]
-    const index = listNotes.indexOf((note) => note.id = noteId)
+    const index = listNotes.indexOf((note) => note.id === noteId)
     newListNotes.splice(index, 1)
     setListNotes(newListNotes)
   }
