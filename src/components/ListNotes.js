@@ -4,22 +4,24 @@ import NoteItem from './NoteItem';
 import { Col, Row } from "antd";
 import './ListNotes.css'
 
-NoteContent.propTypes = {
-    note: PropTypes.object,
+ListNotes.propTypes = {
+    // note: PropTypes.object,
     category: PropTypes.array,
     listNotes: PropTypes.array,
+    deleteNote: PropTypes.func,
 };
 
-NoteContent.defaultProps = {
-    note: {},
+ListNotes.defaultProps = {
+    // note: {},
     category: [],
     listNotes: [],
+    deleteNote: null,
 }
 
 
 
-function NoteContent(props) {
-    const { note, category, listNotes } = props
+function ListNotes(props) {
+    const { category, listNotes, deleteNote } = props
     
     return (
         <>
@@ -27,7 +29,7 @@ function NoteContent(props) {
                 {listNotes.map((note) => {
                     return (
                         <Col xl={6} md={8} sm={12} xs={24} className="product-col">
-                            <NoteItem note={note.item} />
+                            <NoteItem note={note.item} deleteNote={deleteNote} />
                         </Col>
 
                     )
@@ -39,4 +41,4 @@ function NoteContent(props) {
 
 }
 
-export default NoteContent;
+export default ListNotes;

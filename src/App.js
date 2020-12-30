@@ -3,7 +3,7 @@ import Category from './components/Category';
 import Search from './components/Search';
 import AddCategory from './components/AddCategory';
 import './App.css';
-import NoteContent from './components/ListNotes';
+import ListNotes from './components/ListNotes';
 import { data } from './data/data';
 import Fuse from 'fuse.js';
 import 'antd/dist/antd.css';
@@ -16,7 +16,7 @@ function App() {
 
   const [listNotes, setListNotes] = useState([]);
   const [cateSelected, setCateSelected] = useState("All notes");
-  const category = data.category;
+  const [category,setCategory] = useState([])
   const [isOpenAddCate, setIsOpenAddCate] = useState(false);
   const [isOpenAddNote, setIsOpenAddNote] = useState(false);
 
@@ -46,8 +46,8 @@ function App() {
   useEffect(() => {
     async function initialValue() {
       const results = await fuse.search(" ");
-      setListNotes(results)
-      // setNote(listNotes[0]?.item)
+      setListNotes(results);
+      setCategory(data.category);
     }
     initialValue();
 
@@ -123,6 +123,30 @@ function App() {
   //     setNoteDetail(noteNew);
   //   }
   // }
+
+  function deleteNote(noteId) {
+    // console.log(newNote)
+    // console.log(listNotes)
+    let newListNotes = [...listNotes]
+    const index = listNotes.indexOf((note) => note.id = noteId)
+    newListNotes.splice(index, 1)
+    setListNotes(newListNotes)
+  }
+
+  function addCategory(newCate) {
+    let categories = [...category]
+    categories.push(newCate)
+    setCategory(categories)
+  }
+  function addNote(newNote) {
+    // console.log(newNote)
+    // console.log(listNotes)
+    let newListNotes = [...listNotes]
+    newListNotes.push(newNote)
+    setListNotes(newListNotes)
+  }
+
+
   return (
     <div className="App">
       <div className="App-header">
@@ -130,20 +154,34 @@ function App() {
       </div>
       <div className="App-content">
         <div className="sidebar">
-          <AddCategory isModalVisible={isOpenAddCate} closeModal={closeAddCate} />
+          <AddCategory 
+            isModalVisible={isOpenAddCate} 
+            closeModal={closeAddCate} 
+            addCategory={addCategory}
+            nextId={category.length+1}
+            />
           <Category
             onDeleClick={onDeleClick}
             onNoteClick={onNoteClick}
             category={category}
             displayNoteByCate={displayNoteByCate}
             openModal={openAddCate} 
+            addCategory={addCategory}
           />
         </div>
-        <div >
+        <div className="content">
           <Row >
             <div class="title-content"> 
               <h2 className="title-menu">{ cateSelected ?  cateSelected : 'All notes'}</h2> 
-              <AddNote isModalVisible={isOpenAddNote} closeModal={closeAddNote} openModal={openAddNote} /> 
+              <AddNote 
+                isOpenAddNote={isOpenAddNote}
+                closeAddNote={closeAddNote}
+                openAddNote={openAddNote} 
+                category={category} 
+                openAddCate={openAddCate}
+                nextId={listNotes.length+1}
+                addNote={addNote}
+                 /> 
           </div>
           </Row>
           <Row >
@@ -151,8 +189,9 @@ function App() {
                 changeKeySearch={changeKeySearch}
               />
           </Row>
-          <NoteContent
+          <ListNotes
             listNotes={listNotes}
+            deleteNote={deleteNote}
             // note={note}
             category={category}
           />

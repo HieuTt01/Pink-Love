@@ -33,6 +33,7 @@
 .card {
     cursor: pointer;
     max-width: 285px;
+    height: 265px;
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 25px;
@@ -58,6 +59,11 @@
     transform: scale(1.05);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
 }
+
+.card:hover .card__inner--icon {
+    display: block;
+}
+
 .card:hover::before {
     transform: scaleX(1);
 }
@@ -70,15 +76,18 @@
     font-weight: 600;
 }
 .card .card__inner h3 {
-    font-size: 40px;
+    font-size: 30px;
     margin-bottom: 25px;
     font-weight: 600;
+    word-wrap: break-word;
 }
 .card .card__inner p {
 
     font-size: 16px;
     font-weight: 400;
     line-height: 1.8;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
 
     overflow: hidden;
@@ -86,5 +95,13 @@
     display: -webkit-box;
     -webkit-box-orient: vertical ;
     -webkit-line-clamp: 2;
+}
 
+.card__inner--icon {
+    text-align: right;
+    display: none;
+}
+.button--icon:hover {
+    /* background-color: pink ; */
+    border: red 1px solid !important;
 }
