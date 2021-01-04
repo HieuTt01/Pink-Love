@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Category from './components/Category';
 import Search from './components/Search';
-import AddCategory from './components/AddCategory';
+// import AddCategory from './components/AddCategory';
 import './App.css';
 import ListNotes from './components/ListNotes';
 import { data } from './data/data';
 import Fuse from 'fuse.js';
 import 'antd/dist/antd.css';
-import { Row } from "antd";
+import { message, Row } from "antd";
 import AddNote from './components/AddNote'
 
 
@@ -15,8 +15,9 @@ import AddNote from './components/AddNote'
 function App() {
 
   const [listNotes, setListNotes] = useState([]);
+  const [note, setNote] = useState({})
   const [cateSelected, setCateSelected] = useState("All notes");
-  const [category,setCategory] = useState([])
+  const [category, setCategory] = useState([])
   const [isOpenAddCate, setIsOpenAddCate] = useState(false);
   const [isOpenAddNote, setIsOpenAddNote] = useState(false);
   const [intinialData, setIntinialData] = useState();
@@ -43,18 +44,19 @@ function App() {
   const fuse = new Fuse(intinialData, options);
 
   useEffect(() => {
-    async function initialValue() {
-      const requestUrl = "http://localhost:3000/listNotes"
-      const response = await fetch(requestUrl)
-      const data = await response.json()
-      const category = getCategory(data)
+    fetchData()
+  }, [])
+
+  function fetchData () {
+  fetch("http://localhost:3000/listNotes")
+    .then(response=> response.json())
+    .then(data => {
       setIntinialData(data);
       setListNotes(data);
-      setCategory(category);
-    }
-    initialValue();
-
-  }, [])
+      setCategory(getCategory(data));
+    })
+   
+  }
 
   function getCategory(data) {
     if (data) {
@@ -98,7 +100,7 @@ function App() {
           newlistNotes.push(value);
         }
       });
-      console.log(newlistNotes)
+      // console.log(newlistNotes)
     }
     else {
       const results = fuse.search(" ");
@@ -107,27 +109,27 @@ function App() {
     setListNotes(newlistNotes);
   }
 
-  function onDeleClick(note) {
-    const index = listNotes.findIndex(x => x.id === note.id);
-    if (index < 0) return;
-    const newListNotes = [...listNotes];
-    newListNotes.splice(index, 1);
-    setListNotes(newListNotes);
-  }
+  // function onDeleClick(note) {
+  //   const index = listNotes.findIndex(x => x.id === note.id);
+  //   if (index < 0) return;
+  //   const newListNotes = [...listNotes];
+  //   newListNotes.splice(index, 1);
+  //   setListNotes(newListNotes);
+  // }
 
 
 
   function onNoteClick(cateTitle) {
-    console.log(cateTitle)
+    // console.log(cateTitle)
     if (cateTitle) {
       setCateSelected(cateTitle)
     }
   }
 
 
-  function openAddCate() {
-    setIsOpenAddCate(true)
-  }
+  // function openAddCate() {
+  //   setIsOpenAddCate(true)
+  // }
 
   function closeAddCate() {
     setIsOpenAddCate(false)
@@ -139,6 +141,7 @@ function App() {
 
   function closeAddNote() {
     setIsOpenAddNote(false)
+    setNote({})
   }
 
   // function onEditClick (newNotes, noteNew) {
@@ -147,13 +150,23 @@ function App() {
   //     setNoteDetail(noteNew);
   //   }
   // }
-  console.log(listNotes)
+  // console.log(listNotes)
 
   function deleteNote(noteId) {
-    let newListNotes = [...listNotes]
-    const index = listNotes.indexOf((note) => note.id === noteId)
-    newListNotes.splice(index, 1)
-    setListNotes(newListNotes)
+    const requestUrl = "http://localhost:3000/listNotes/"
+    fetch(requestUrl + noteId, {
+      method: 'DELETE',
+    })
+    .then(res => res.json())
+    .then(response => {
+      console.log('Success:', JSON.stringify(response))
+      message.success("Note has been deleted!")
+      fetchData()
+  })
+    .catch(error => {
+      console.error('Error:', error)
+      message.error(error)
+  })
   }
 
   function addCategory(newCate) {
@@ -162,13 +175,68 @@ function App() {
     setCategory(categories)
   }
   function addNote(newNote) {
-    // console.log(newNote)
-    // console.log(listNotes)
-    let newListNotes = [...listNotes]
-    newListNotes.push(newNote)
-    setListNotes(newListNotes)
+    const requestUrl = "http://localhost:3000/listNotes/"
+    fetch(requestUrl, {
+      method: 'POST',
+      body: JSON.stringify(newNote),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(response => {
+        console.log('Success:', JSON.stringify(response))
+        message.success("Note added successfully")
+        fetchData()
+    })
+      .catch(error => {
+        console.error('Error:', error)
+        message.error(error)
+    })
   }
 
+  function getNoteById (noteId) {
+    const requestUrl = "http://localhost:3000/listNotes/"
+    fetch(requestUrl + noteId, {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(response => {
+        // console.log('Success:', JSON.stringify(response))
+        setNote(response)
+    })
+      .catch(error => {
+        console.error('Error:', error)
+        message.error(error)
+    })
+  }
+
+  function onEditNoteClick(noteId) {
+    getNoteById(noteId)
+    setIsOpenAddNote(true)
+  }
+
+  function editNote(note) {
+    const requestUrl = "http://localhost:3000/listNotes/"
+    fetch(requestUrl + note.id, {
+      method: 'PUT',
+      body: JSON.stringify(note),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(response => {
+        console.log('Success:', JSON.stringify(response))
+        message.success("Note updated successfully")
+        fetchData()
+        setNote({})
+    })
+      .catch(error => {
+        console.error('Error:', error)
+        message.error(error)
+    })
+  }
 
   return (
     <div className="App">
@@ -177,44 +245,47 @@ function App() {
       </div>
       <div className="App-content">
         <div className="sidebar">
-          <AddCategory 
-            isModalVisible={isOpenAddCate} 
-            closeModal={closeAddCate} 
+          {/* <AddCategory
+            isModalVisible={isOpenAddCate}
+            closeModal={closeAddCate}
             addCategory={addCategory}
-            nextId={category.length+1}
-            />
+            nextId={category.length + 1}
+            // editNote={editNote}
+          /> */}
           <Category
-            onDeleClick={onDeleClick}
+            // onDeleClick={onDeleClick}
             onNoteClick={onNoteClick}
             category={category}
             displayNoteByCate={displayNoteByCate}
-            openModal={openAddCate} 
+            // openModal={openAddCate}
             addCategory={addCategory}
           />
         </div>
         <div className="content">
           <Row >
-            <div class="title-content"> 
-              <h2 className="title-menu">{ cateSelected ?  cateSelected : 'All notes'}</h2> 
-              <AddNote 
+            <div className="title-content">
+              <h2 className="title-menu">{cateSelected ? cateSelected : 'All notes'}</h2>
+            <AddNote
                 isOpenAddNote={isOpenAddNote}
                 closeAddNote={closeAddNote}
-                openAddNote={openAddNote} 
-                category={category} 
-                openAddCate={openAddCate}
-                nextId={listNotes.length+1}
+                openAddNote={openAddNote}
+                category={category}
+                // openAddCate={openAddCate}
                 addNote={addNote}
-                 /> 
-          </div>
+                note={note}
+                editNote={editNote}
+              />
+            </div>
           </Row>
           <Row >
-              <Search
-                changeKeySearch={changeKeySearch}
-              />
+            <Search
+              changeKeySearch={changeKeySearch}
+            />
           </Row>
           <ListNotes
             listNotes={listNotes}
             deleteNote={deleteNote}
+            onEditNoteClick={onEditNoteClick}
             // note={note}
             category={category}
           />

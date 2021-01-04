@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import NoteItem from './NoteItem';
 import { Col, Row } from "antd";
@@ -21,17 +21,16 @@ ListNotes.defaultProps = {
 
 
 function ListNotes(props) {
-    const {  listNotes, deleteNote } = props
+    const {  listNotes, deleteNote, onEditNoteClick } = props
     
     return (
         <>
             <Row className="notes-container" justify="center">
                 {listNotes.map((note) => {
                     return (
-                        <Col xl={6} md={8} sm={12} xs={24} className="product-col">
-                            <NoteItem note={note} deleteNote={deleteNote} />
+                        <Col xl={6} md={8} sm={12} xs={24} className="product-col" key={note.id} >
+                            <NoteItem  note={note} deleteNote={deleteNote} onEditNoteClick={onEditNoteClick} />
                         </Col>
-
                     )
                 })}
             </Row>
