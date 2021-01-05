@@ -11,6 +11,8 @@ import { message, Row } from "antd";
 import AddNote from './components/AddNote'
 
 
+//config
+const url = "https://notebook-db.herokuapp.com/listNotes/"
 
 function App() {
 
@@ -48,7 +50,7 @@ function App() {
   }, [])
 
   function fetchData () {
-  fetch("http://localhost:3000/listNotes")
+  fetch(url)
     .then(response=> response.json())
     .then(data => {
       setIntinialData(data);
@@ -153,7 +155,7 @@ function App() {
   // console.log(listNotes)
 
   function deleteNote(noteId) {
-    const requestUrl = "http://localhost:3000/listNotes/"
+    const requestUrl = url
     fetch(requestUrl + noteId, {
       method: 'DELETE',
     })
@@ -175,7 +177,7 @@ function App() {
     setCategory(categories)
   }
   function addNote(newNote) {
-    const requestUrl = "http://localhost:3000/listNotes/"
+    const requestUrl = url
     fetch(requestUrl, {
       method: 'POST',
       body: JSON.stringify(newNote),
@@ -196,7 +198,7 @@ function App() {
   }
 
   function getNoteById (noteId) {
-    const requestUrl = "http://localhost:3000/listNotes/"
+    const requestUrl = url
     fetch(requestUrl + noteId, {
       method: 'GET'
     })
@@ -217,7 +219,7 @@ function App() {
   }
 
   function editNote(note) {
-    const requestUrl = "http://localhost:3000/listNotes/"
+    const requestUrl = url
     fetch(requestUrl + note.id, {
       method: 'PUT',
       body: JSON.stringify(note),
