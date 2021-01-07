@@ -61,7 +61,6 @@ function AddNote(props) {
 
     const clearFormValues = () => {
         form.resetFields();
-        console.log(form)
     }
 
 
@@ -107,6 +106,7 @@ function AddNote(props) {
             addNote(newNote);
         }
         closeAddNote();
+        clearFormValues();
     };
 
     const onFinishFailed = errorInfo => {

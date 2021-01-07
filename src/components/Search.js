@@ -23,7 +23,6 @@ function Search(props) {
     return (
         <div className="search">
              <input className="search__input"  name="search"  placeholder="Input to search..." onChange={(event)=>handeleChangeSearch(event)}>
-
              </input>
         </div>
     );

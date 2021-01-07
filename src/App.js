@@ -23,6 +23,7 @@ function App() {
   const [isOpenAddCate, setIsOpenAddCate] = useState(false);
   const [isOpenAddNote, setIsOpenAddNote] = useState(false);
   const [intinialData, setIntinialData] = useState();
+  const [allSearchResults, setAllSearchResults] = useState([])
 
   const options = {
     // isCaseSensitive: false,
@@ -56,6 +57,7 @@ function App() {
       setIntinialData(data);
       setListNotes(data);
       setCategory(getCategory(data));
+      setAllSearchResults(data)
     })
    
   }
@@ -84,34 +86,30 @@ function App() {
       const searchResults = fuse.search(key);
       const results = searchResults.map(note => note.item);
       setListNotes(results)
+      setAllSearchResults(results)
     }
     else {
-      const searchResults = fuse.search(" ");
-      const results = searchResults.map(note => note.item);
+      const results = [...intinialData]
       setListNotes(results)
     }
   }
 
   function displayNoteByCate(cateId) {
     var newlistNotes = [];
-    if (cateId !== 0) {
-      const searchResults = fuse.search(" ");
-      const results = searchResults.map(note => note.item);
-      results.map((value) => {
-        if (value.category.id === cateId) {
-          newlistNotes.push(value);
-        }
-      });
-      // console.log(newlistNotes)
+    if (cateId !== null) {
+      let temp = allSearchResults.filter((item) => {
+        return item.category.id === cateId
+      })
+      newlistNotes = [...temp]
     }
     else {
-      const results = fuse.search(" ");
-      newlistNotes = results.map(note => note.item);
+      newlistNotes = [...allSearchResults]
     }
     setListNotes(newlistNotes);
   }
 
-  // function onDeleClick(note) {
+  // function onDeleClick
+  // (note) {
   //   const index = listNotes.findIndex(x => x.id === note.id);
   //   if (index < 0) return;
   //   const newListNotes = [...listNotes];
@@ -133,9 +131,9 @@ function App() {
   //   setIsOpenAddCate(true)
   // }
 
-  function closeAddCate() {
-    setIsOpenAddCate(false)
-  }
+  // function closeAddCate() {
+  //   setIsOpenAddCate(false)
+  // }
 
   function openAddNote() {
     setIsOpenAddNote(true)
