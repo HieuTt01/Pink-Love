@@ -4,7 +4,6 @@ import Search from './components/Search';
 // import AddCategory from './components/AddCategory';
 import './App.css';
 import ListNotes from './components/ListNotes';
-import { data } from './data/data';
 import Fuse from 'fuse.js';
 import 'antd/dist/antd.css';
 import { message, Row } from "antd";
@@ -20,10 +19,11 @@ function App() {
   const [note, setNote] = useState({})
   const [cateSelected, setCateSelected] = useState("All notes");
   const [category, setCategory] = useState([])
-  const [isOpenAddCate, setIsOpenAddCate] = useState(false);
+  // const [isOpenAddCate, setIsOpenAddCate] = useState(false);
   const [isOpenAddNote, setIsOpenAddNote] = useState(false);
   const [intinialData, setIntinialData] = useState();
   const [allSearchResults, setAllSearchResults] = useState([])
+  const [isActiveted, setIsActiveted] = useState(null)
 
   const options = {
     // isCaseSensitive: false,
@@ -57,7 +57,9 @@ function App() {
       setIntinialData(data);
       setListNotes(data);
       setCategory(getCategory(data));
-      setAllSearchResults(data)
+      setAllSearchResults(data);
+      setCateSelected("All notes");
+      setIsActiveted(null);
     })
    
   }
@@ -104,6 +106,7 @@ function App() {
     }
     else {
       newlistNotes = [...allSearchResults]
+      setCateSelected("All notes")
     }
     setListNotes(newlistNotes);
   }
@@ -188,6 +191,8 @@ function App() {
         console.log('Success:', JSON.stringify(response))
         message.success("Note added successfully")
         fetchData()
+        // setCateSelected('All notes')
+        // displayNoteByCate(null)
     })
       .catch(error => {
         console.error('Error:', error)
@@ -228,7 +233,7 @@ function App() {
       .then(res => res.json())
       .then(response => {
         console.log('Success:', JSON.stringify(response))
-        message.success("Note updated successfully")
+        message.success("Note updated successfully!")
         fetchData()
         setNote({})
     })
@@ -237,6 +242,7 @@ function App() {
         message.error(error)
     })
   }
+
 
   return (
     <div className="App">
@@ -259,6 +265,8 @@ function App() {
             displayNoteByCate={displayNoteByCate}
             // openModal={openAddCate}
             addCategory={addCategory}
+            isActiveted={isActiveted}
+            setIsActiveted={setIsActiveted}
           />
         </div>
         <div className="content">

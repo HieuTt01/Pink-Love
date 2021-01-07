@@ -73,15 +73,19 @@ function AddNote(props) {
 
     function handleAddcategory() {
         try {
-            if(newCate.length > 0) {
-            const newcategory = {
-                id: genNewId(),
-                title: newCate
-            }
-            console.log(newcategory)
-            const newListCate = [...category]
-            newListCate.push(newcategory)
-            setCategory(newListCate)
+            if(category.filter(cate => cate.title === newCate).length ===0)
+            {
+                if(newCate.length > 0) {
+                    const newcategory = {
+                        id: genNewId(),
+                        title: newCate
+                    }
+                    const newListCate = [...category]
+                    newListCate.push(newcategory)
+                    setCategory(newListCate)
+                    }
+            }else {
+                message.error("Category already exist!")
             }
         } catch(e) {
             message.error(e)

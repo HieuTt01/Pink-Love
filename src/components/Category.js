@@ -6,7 +6,7 @@ import "./Category.css"
 
 Category.propTypes = {
     category: PropTypes.array,
-    isActiveted: PropTypes.number,
+    isActiveted: PropTypes.string,
     // onDeleteClick: PropTypes.func,
     onNoteClick: PropTypes.func,
     displayNoteByCate: PropTypes.func,
@@ -14,14 +14,14 @@ Category.propTypes = {
 };
 Category.defaultProps = {
     category: [],
-    isActiveted: 0,
+    isActiveted: null,
     onDeleteClick: null,
     onNoteClick: null,
     displayNoteByCate: null,
 }
  function Category(props) {
-    const [isActiveted, setIsActiveted] = useState(0)
-    const { onDeleClick, onNoteClick, category, displayNoteByCate, openModal } = props;
+    
+    const { onNoteClick, category, displayNoteByCate,isActiveted, setIsActiveted } = props;
 
     // function handleDelete(note) {
     //     if (onDeleClick) {
@@ -36,7 +36,7 @@ Category.defaultProps = {
                 displayNoteByCate(cate.id)
             }
             else {
-                setIsActiveted(0)
+                setIsActiveted(null)
                 onNoteClick('All notes')
                 displayNoteByCate(null)
             }
@@ -46,9 +46,9 @@ Category.defaultProps = {
         
     }
     
-    const showModal = () => {
-        openModal();
-    };
+    // const showModal = () => {
+    //     openModal();
+    // };
     
     return (
         <div className="category">

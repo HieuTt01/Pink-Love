@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import NoteItem from './NoteItem';
 import { Col, Row } from "antd";

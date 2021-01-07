@@ -3,7 +3,7 @@ import { Button, message } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 function NoteItem(props) {
-    const { note, deleteNote, onEditNoteClick, keyItem, isActive } = props
+    const { note, deleteNote, onEditNoteClick} = props
 
 
     function handleDeleteNote(noteId) {
